@@ -1,6 +1,5 @@
 // Database related
 
-import fs from 'fs'
 import Product from "../models/Product.model.js"
 
 
