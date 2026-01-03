@@ -61,7 +61,3 @@
 
 3. $eq/$ne : equal or not equal 
 
-git status
-git add .
-git commit -m "feat(auth): add schema validation with email and password regex"
-git push
