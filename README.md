@@ -61,3 +61,41 @@
 
 3. $eq/$ne : equal or not equal 
 
+
+
+4. ## Encryption
+
+- encryption/ decryption
+
+5. ## Hashing
+
+- one way encryption
+- password = #%^#$**12312&*#@
+- same if ur password was hello to check in using cryptography
+- if both text hash = password hash u get login.
+- but it has flaws if other user has also same password easier to compare.
+
+6. ## Salt
+- Extra addition character added to hash
+- Salt change hashed pw.
+ 
+
+
+ 7. ## JSON web token JWT
+  - when user logged in it create unique token of auth User. (logged in).
+  - It has 3 parts
+  - Header | Body | Signature
+  
+8. ## Session Storage, Local Storage, Cookie
+-  Store the created Token
+- Cookie is kind of storage unit where we can save data in server and browser. Cookie (4 KB)  size is less compared to Session(5MB-10MB)
+- Cookie is active all the session. (Available throughout the browser).
+- Cookie can be shared to request header.
+- We can set expiry date.
+- Session and local storage can be store in Server. can be stored in only browser. Expires when we close tab.
+
+
+
+
+
+

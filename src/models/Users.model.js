@@ -29,14 +29,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     minLength: 8,
-    validate: {
-      validator: (value) => {
-       return  PASSWORD_REGEX.test(value)
-        // return true for valid, false for invalid
+    // validate: {
+    //   validator: (value) => {
+    //    return  PASSWORD_REGEX.test(value)
+    //     // return true for valid, false for invalid
        
-      },
-      message: "Password must contain upperCase & lowerCase, number and special character", // fixed syntax
-    },
+    //   },
+    //   message: "Password must contain upperCase & lowerCase, number and special character", // fixed syntax
+    // },
   },
 
   address: {

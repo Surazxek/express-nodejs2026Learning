@@ -2,8 +2,10 @@ import express from 'express';
 import dotenv from "dotenv";
 import productRoutes from "./routes/productRoute.js"
 import userRoutes from "./routes/userRoute.js"
+import authRoutes from "./routes/authRoutes.js"
 import bodyParser from 'body-parser';
 import connectDB from './config/database.js';
+import logger from './middlewares/logger.js';
 dotenv.config()
 
 const PORT = process.env.PORT || 5000;
@@ -12,10 +14,10 @@ const app = express();
 
 connectDB();
 
-app.use(bodyParser.urlencoded ({ extended: false})) // form data
-app.use(bodyParser.json()) // jsondata ko lagi
-
-app.use(express.json());
+// Middleware
+app.use(logger);                  // custom logger
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 
 
@@ -30,9 +32,14 @@ app.get("/", (req, res) =>{
 })
 
 
+
+
 app.use("/api/products", productRoutes)
 app.use("/api/users", userRoutes)
+app.use("/api/auth", authRoutes)
 
+
+//Global middleware
 
 
 
