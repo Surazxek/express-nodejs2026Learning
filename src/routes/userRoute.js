@@ -8,8 +8,6 @@ const router  = express.Router();
 
 router.post("/", createUser)
 
-router.post("/test", auth, (req,res)=>{
-    res.send("Test auth token")
-})
+
 
 export default router;

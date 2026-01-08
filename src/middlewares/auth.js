@@ -11,7 +11,7 @@ function auth(req, res, next) {
     .then((data) => {
       req.user = data; // attach decoded payload to request
 
-     
+    //  console.log(req.user)
       next();
     })
     .catch(() => {

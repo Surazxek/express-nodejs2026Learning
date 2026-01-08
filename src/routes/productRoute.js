@@ -1,6 +1,8 @@
 import express from 'express';
 import { createProduct, deleteProduct, getAllProducts, getProductByID, updateProduct } from '../controllers/productController.js';
 import auth from '../middlewares/auth.js';
+import roleBasedAuth from '../middlewares/roleBasedAuth.js';
+import { ROLE_ADMIN, ROLE_MERCHANT } from '../constants/roles.js';
 
 const app = express();
 
@@ -11,12 +13,12 @@ router.get("/", getAllProducts)
 
 router.get ("/:id", getProductByID)   // getProductbyid
 
-router.post("/", auth, createProduct)
+router.post("/", auth, roleBasedAuth(ROLE_MERCHANT),createProduct)
 
 
-router.put("/:id", auth, updateProduct );
+router.put("/:id", auth, roleBasedAuth(ROLE_MERCHANT), updateProduct );
 
-router.delete("/:id", deleteProduct );
+router.delete("/:id", auth, roleBasedAuth(ROLE_ADMIN), deleteProduct );
 
 
 export default router;

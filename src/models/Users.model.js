@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { EMAIL_REGEX, PASSWORD_REGEX } from "../constants/regex.js";
+import { ROLE_ADMIN, ROLE_MERCHANT, ROLE_USER } from "../constants/roles.js";
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -53,6 +54,7 @@ const userSchema = new mongoose.Schema({
   roles: {
     type: [String],
     default: ["USER"],
+    enum: [ROLE_USER, ROLE_ADMIN, ROLE_MERCHANT ],  // roles.js bata auuxa yo
     uppercase: true,
   },
 

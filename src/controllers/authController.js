@@ -47,7 +47,13 @@ const register = async (req, res) => {
     if (!confirmPassword)
       return res.status(422).send("Confirm password is required.");
 
-    //  FIRST: check password strength
+   
+
+    // THEN: check match
+    if (password !== confirmPassword)
+      return res.status(422).send("Password doesn't match");
+
+     //  FIRST: check password strength
     if (!PASSWORD_REGEX.test(password))
       return res
         .status(422)
@@ -55,16 +61,13 @@ const register = async (req, res) => {
           "Password must contain upperCase & lowerCase, number and special character"
         );
 
-    // THEN: check match
-    if (password !== confirmPassword)
-      return res.status(422).send("Password doesn't match");
-
     const data = await authService.register(req.body);
     const formattedData = formatUserData(data)
 
     const token = createJWT(formattedData)
 
     res.cookie("authToken", token) // first parameter and actual token linxa
+    
     res.json(formattedData);
 
   } catch (error) {
