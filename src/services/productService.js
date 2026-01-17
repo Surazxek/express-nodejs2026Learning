@@ -3,9 +3,42 @@
 import Product from "../models/Product.model.js"
 
 
+//. Sorting: {fieldName:ORDER } for e.g {price: -1} 1: ASC | -1: DESC
 
-const getAllProducts = async () => {
-   const products = await Product.find()
+// 2. Limit: Max no of items to display    pagination
+
+
+
+const getAllProducts = async (query, userId) => {
+  console.log(query)
+
+  const sort = JSON.parse(query.sort || "{}");
+  const limit = query.limit
+  const offset = query.offset
+
+  const filters = {}
+  const { category, brands, name, min, max} = query
+  
+  if (userId) {
+    filters.createdBy = userId;
+  }
+
+  if(category) filters.category = category // absolute filter
+
+  if(brands) {
+    const brandItems = brands.split(",")    // array ma 
+     filters.brand = {$in: brandItems,}
+  }
+  if(name) {filters.name = {$regex:name, $options: "i",}}   //fuzzy searching
+   
+  if(min) filters.price = {$gte: parseFloat(min)}
+
+   if(max) filters.price = { ...filters.price,  $lte: parseFloat(max)}
+  
+   
+
+   const products = await Product.find(filters
+   ).sort(sort).limit(limit).skip(offset)
    return products;
 }
 

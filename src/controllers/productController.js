@@ -2,9 +2,17 @@ import { ROLE_ADMIN } from "../constants/roles.js";
 import productService from "../services/productService.js";
 
 export const getAllProducts = async (req, res) => {
-  const products = await productService.getAllProducts();
+  const products = await productService.getAllProducts(req.query);
+  
   res.json(products);
 };
+
+
+
+export const getProductsByUser = async (req,res) =>{
+    const products = await productService.getAllProducts(req.query, req.user.id);
+    res.json(products)
+}
 
 export const getProductByID = async (req, res) => {
   try {

@@ -30,6 +30,15 @@ import userService from "../services/userService.js"
 };
 
 
+const getAllCustomers = async (req, res) => {
+  const users = await userService.getAllCustomers();
+
+  const formattedUsers= users.map((user)=> formatUserData(user))
+  res.json(formattedUsers);
+};
+
+
+
 const getUserById = async (req, res) => {
   const id = req.params.id;
   const loggedInUser = req.user;
@@ -78,4 +87,4 @@ const deleteUser = async (req, res) => {
 };
 
 
-export { createUser, createMerchant, updateUser, deleteUser, getAllUsers, getUserById} 
+export { createUser, createMerchant, updateUser, deleteUser, getAllUsers, getUserById, getAllCustomers} 

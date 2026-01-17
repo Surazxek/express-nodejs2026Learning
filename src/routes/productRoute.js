@@ -1,5 +1,5 @@
 import express from 'express';
-import { createProduct, deleteProduct, getAllProducts, getProductByID, updateProduct } from '../controllers/productController.js';
+import { createProduct, deleteProduct, getAllProducts, getProductByID, getProductsByUser, updateProduct } from '../controllers/productController.js';
 import auth from '../middlewares/auth.js';
 import roleBasedAuth from '../middlewares/roleBasedAuth.js';
 import { ROLE_ADMIN, ROLE_MERCHANT } from '../constants/roles.js';
@@ -10,6 +10,8 @@ const router = express.Router();
 // URL : /api/products
 
 router.get("/", getAllProducts)
+
+router.get("/users", auth, getProductsByUser)
 
 router.get ("/:id", getProductByID)   // getProductbyid
 
