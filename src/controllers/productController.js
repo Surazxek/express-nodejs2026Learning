@@ -40,6 +40,16 @@ export const createProduct = async (req, res) => {
   }
 };
 
+export const getAllCategories = async (req, res) => {
+  try {
+    const categories = await productService.getAllCategories();
+    res.json(categories);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+
 export const updateProduct = async (req, res) => {
   const id = req.params.id;
   const user= req.user;

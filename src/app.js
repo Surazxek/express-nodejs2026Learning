@@ -6,6 +6,8 @@ import authRoutes from "./routes/authRoutes.js"
 import bodyParser from 'body-parser';
 import connectDB from './config/database.js';
 import logger from './middlewares/logger.js';
+import connectCloudinary from './config/cloudinary.js';
+import multer from 'multer';
 dotenv.config()
 
 const PORT = process.env.PORT || 5000;
@@ -13,6 +15,11 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 
 connectDB();
+connectCloudinary();
+
+const upload = multer({
+    storage: multer.memoryStorage(),
+})
 
 // Middleware
 app.use(logger);                  // custom logger
@@ -36,7 +43,7 @@ app.get("/", (req, res) =>{
 
 
 app.use("/api/products", productRoutes)
-app.use("/api/users", userRoutes)
+app.use("/api/users", upload.single("image"), userRoutes)
 app.use("/api/auth", authRoutes)
 
 

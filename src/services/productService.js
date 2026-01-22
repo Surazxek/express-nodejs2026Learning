@@ -48,6 +48,12 @@ const getProductById = async (id) => {
  return product
 }
 
+const getAllCategories = async () => {
+  const categories = await Product.distinct("category");
+  return categories;
+};
+
+
 const createProduct = async (data, userId) => {
   return await Product.create({
     ...data,
@@ -65,4 +71,4 @@ const deleteProduct = async (id) => {
     await Product.findByIdAndDelete(id);
 }
 
-export default {getAllProducts,getProductById, createProduct,updateProduct, deleteProduct}
+export default {getAllProducts,getProductById, createProduct,updateProduct, deleteProduct, getAllCategories}

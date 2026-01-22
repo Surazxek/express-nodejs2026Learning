@@ -76,4 +76,60 @@ const register = async (req, res) => {
 };
 
 
-export { login, register };
+const logout = (req,res) => {
+  res.clearCookie("authToken");
+
+  res.json({message: " Logout successful"})
+}
+
+
+
+const forgetPassword = async (req, res) => {
+  try {
+    const email = req.body.email;
+
+    if (!email) return res.status(422).send("Email is required");
+
+    const data = await authService.forgetPassword(email);
+    res.json(data);
+
+  } catch (error) {
+    res.status(error.statusCode || 500).send(error.message || "Something went wrong");
+  }
+};
+
+
+
+const resetPassword = async (req, res) => {
+  try {
+    const password = req.body.password
+    const confirmPassword = req.body.confirmPassword;
+    const token = req.query.token;
+    const userId = req.params.userId
+    
+    if (!password) return res.status(422).send("Password is required");
+    if (!confirmPassword) return res.status(422).send("ConformPassword is required");
+
+    if(password != confirmPassword){
+      return res.status(422).send("Password do not match")
+    }
+    try {
+        const data = await authService.resetPassword(userId, token, password)
+
+        res.json(data)
+    } catch (error) {
+         res.status(error.statusCode || 500).send (error.message)
+    }
+
+    res.json(data);
+
+  } catch (error) {
+    res.status(error.statusCode || 500).send(error.message);
+  }
+};
+
+
+
+
+
+export { login, register,logout, forgetPassword, resetPassword}

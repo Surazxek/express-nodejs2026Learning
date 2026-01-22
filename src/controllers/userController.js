@@ -48,7 +48,11 @@ const getUserById = async (req, res) => {
 
     if (!user) return res.status(404).send("User not found");
 
-    if (loggedInUser.id != user.id && !user.roles.includes(ROLE_MERCHANT)) {
+    if (
+      loggedInUser.id != user.id &&
+      !loggedInUser.roles.includes(ROLE_MERCHANT) &&
+      !loggedInUser.roles.includes(ROLE_ADMIN)
+    ) {
       return res.status(403).send("Access Denied");
     }
 
@@ -58,7 +62,6 @@ const getUserById = async (req, res) => {
     res.status(500).send(error.message);
   }
 };
-
 
 
 
@@ -86,5 +89,17 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const uploadProfileImage = async (req,res) => {
+  const file = req.file;
+  const userId = req.user.id
+  try {
+    const data =  await userService.uploadProfileImage(userId, file);
+  res.json(formatUserData(data))
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+  
+}
 
-export { createUser, createMerchant, updateUser, deleteUser, getAllUsers, getUserById, getAllCustomers} 
+
+export { createUser, createMerchant, updateUser, deleteUser, getAllUsers, getUserById, getAllCustomers, uploadProfileImage} 

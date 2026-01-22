@@ -1,4 +1,5 @@
 import User from "../models/Users.model.js";
+import ResetPassword from "../models/ResetPassword.model.js"
 import bcrypt from "bcryptjs";
 
 const login = async (data) => {
@@ -50,5 +51,61 @@ const register = async (data) => {
   });
 };
 
+const forgetPassword = async (email) => {
+  const user = await User.findOne({ email });
 
-export default { login,register };
+  if (!user) {
+    throw {
+      statusCode: 404,
+      message: "User with this email does not exist",
+    };
+  }
+
+  const otp = Math.floor(100000 + Math.random() * 900000).toString(); // 6 digit string
+
+  await ResetPassword.create({
+    userId: user._id,
+    token: otp,
+  });
+
+  return { message: "Reset password OTP sent to your email" };
+};
+
+const resetPassword = async (userId, token, password) => {
+
+  const data = await ResetPassword.findOne({
+    userId,
+    expiresAt: { $gte: Date.now() }
+  });
+
+  if (!data || data.token !== token) {
+    throw {
+      statusCode: 400,
+      message: "Invalid token."
+    };
+  }
+
+  if (data.isUsed) {
+    throw {
+      statusCode: 400,
+      message: "Token already used."
+    };
+  }
+
+  const hashedPassword = bcrypt.hashSync(password, 10);
+
+  await User.findByIdAndUpdate(userId, {
+    password: hashedPassword,
+  });
+
+  await ResetPassword.findByIdAndUpdate(data._id, {
+    isUsed: true
+  });
+
+  return { message: "Password reset successfully" };
+};
+
+
+
+
+export default { login, register, forgetPassword, resetPassword}

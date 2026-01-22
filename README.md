@@ -94,7 +94,15 @@
 - We can set expiry date.
 - Session and local storage can be store in Server. can be stored in only browser. Expires when we close tab.
 
-
+## File Upload Theory 
+- text,mp4,csv,png,jpeg
+- image => base 64 which is very huge for 3 mb photo to store in Database so we store in cloudinary, aws bucket3, azure etc.
+-  fileUrl: cloudinary/dir.file.name
+- db => fileUrl
+- get the file from data,
+- store that data temporarily in folder
+- Then upload data in bucket like cloudinary
+- 1. Store file in bucket, 2. get file url from bucket, 3. store file url to Database
 
 
 

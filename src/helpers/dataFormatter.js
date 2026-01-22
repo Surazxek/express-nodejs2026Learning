@@ -1,3 +1,5 @@
+
+
 export function formatUserData(data) {
   return {
     address: data.address,
@@ -7,7 +9,6 @@ export function formatUserData(data) {
     roles: data.roles,
     createdAt: data.createdAt,
     id: data.id,
+    profileImageUrl: data.profileImageUrl,
   };
 }
-
-
