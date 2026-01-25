@@ -42,7 +42,7 @@ app.get("/", (req, res) =>{
 
 
 
-app.use("/api/products", productRoutes)
+app.use("/api/products",upload.array("images", 5), productRoutes) //multiple ko liagi array ra maximum kato oota halne re.files ma auuxa multiple
 app.use("/api/users", upload.single("image"), userRoutes)
 app.use("/api/auth", authRoutes)
 

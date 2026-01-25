@@ -27,14 +27,12 @@ export const getProductByID = async (req, res) => {
 };
 export const createProduct = async (req, res) => {
   const userId = req.user.id;
+  const files = req.files
+  const input = req.body // boddy bata sab inpust janxa tei bhara postman body
   try {
-    const data = await productService.createProduct(req.body, userId);
-    // const data = await productService.createProduct({
-    //   ...req.body,
-    //   createdBy: req.user.id
-    // });
-
-    res.status(201).json(data);
+    const data = await productService.createProduct(input, files, userId);
+   
+   res.json(data);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

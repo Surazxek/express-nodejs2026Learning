@@ -1,6 +1,7 @@
 // Database related
 
 import Product from "../models/Product.model.js"
+import uploadFile from "../utils/file.js";
 
 
 //. Sorting: {fieldName:ORDER } for e.g {price: -1} 1: ASC | -1: DESC
@@ -54,10 +55,13 @@ const getAllCategories = async () => {
 };
 
 
-const createProduct = async (data, userId) => {
+const createProduct = async (data, files, userId) => {
+
+  const uploadedFiles = await uploadFile(files)
   return await Product.create({
     ...data,
-    createdBy: userId
+    createdBy: userId, 
+    imageUrls: uploadedFiles.map((item) => item?.url),
   });
 };
 
